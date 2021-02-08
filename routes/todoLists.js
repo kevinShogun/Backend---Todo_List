@@ -10,7 +10,7 @@ const { check } = require('express-validator');
 router.post('/', 
     auth,
     [
-        check('nombre', 'El nombre del todoList es obligatoio').not().isEmpty()
+        check('nombre', 'The name of the todoList is required').not().isEmpty()
     ],
     todoListController.crearTodoList
 );
@@ -25,7 +25,7 @@ router.get('/',
 router.put('/:id', 
     auth,
     [
-        check('nombre', 'El nombre del todoList es obligatoio').not().isEmpty()
+        check('nombre', 'The name of the todoList is required').not().isEmpty()
     ],
     todoListController.actualizarTodoList
 );
