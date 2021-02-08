@@ -19,12 +19,12 @@ exports.crearTask = async (req, res) => {
 
         const existeTodoList = await TodoList.findById(todoList);
         if(!existeTodoList) {
-            return res.status(404).json({msg: 'TodoList no encontrado'})
+            return res.status(404).json({msg: 'TodoList no found'})
         }
 
         // Revisar si el todoList actual pertenece al usuario autenticado
         if(existeTodoList.creador.toString() !== req.usuario.id ) {
-            return res.status(401).json({msg: 'No Autorizado'});
+            return res.status(401).json({msg: 'Not authorized '});
         }
 
         // Creamos la task
@@ -34,7 +34,7 @@ exports.crearTask = async (req, res) => {
     
     } catch (error) {
         console.log(error);
-        res.status(500).send('Hubo un error')
+        res.status(500).send('There was a mistake')
     }
 
 }
@@ -44,17 +44,17 @@ exports.obtenerTasks = async (req, res) => {
 
         try {
             // Extraer el todoList y comprobar si existe
-            const { todoList } = req.query;
+            const { todoList } = req.body;
 
 
             const existeTodoList = await TodoList.findById(todoList);
             if(!existeTodoList) {
-                return res.status(404).json({msg: 'TodoList no encontrado'})
+                return res.status(404).json({msg: 'TodoList no found'})
             }
 
             // Revisar si el todoList actual pertenece al usuario autenticado
             if(existeTodoList.creador.toString() !== req.usuario.id ) {
-                return res.status(401).json({msg: 'No Autorizado'});
+                return res.status(401).json({msg: 'Not Autorized'});
             }
 
             // Obtener las tasks por todoList
@@ -63,7 +63,7 @@ exports.obtenerTasks = async (req, res) => {
 
         } catch (error) {
             console.log(error);
-            res.status(500).send('Hubo un error');
+            res.status(500).send('There was a mistake');
         }
 }
 
@@ -74,11 +74,11 @@ exports.actualizarTask = async (req, res ) => {
         const { todoList, nombre, estado } = req.body;
 
 
-        // Si la task existe o no
+        // Si el task existe o no
         let task = await Task.findById(req.params.id);
 
         if(!task) {
-            return res.status(404).json({msg: 'No existe esa task'});
+            return res.status(404).json({msg: 'The task Item not exist'});
         }
 
         // extraer todoList
@@ -86,21 +86,21 @@ exports.actualizarTask = async (req, res ) => {
 
         // Revisar si el todoList actual pertenece al usuario autenticado
         if(existeTodoList.creador.toString() !== req.usuario.id ) {
-            return res.status(401).json({msg: 'No Autorizado'});
+            return res.status(401).json({msg: 'Not Autorized'});
         }
         // Crear un objeto con la nueva información
         const nuevaTask = {};
-        nuevaTask.nombre = nombre;
-        nuevaTask.estado = estado;
+        if(nombre)    nuevaTask.nombre = nombre;
+        if(estado)    nuevaTask.estado = estado;
 
-        // Guardar la task
+        // Guardar el task
         task = await Task.findOneAndUpdate({_id : req.params.id }, nuevaTask, { new: true } );
 
         res.json({ task });
 
     } catch (error) {
         console.log(error);
-        res.status(500).send('Hubo un error')
+        res.status(500).send('There was a mistake')
     }
 }
 
@@ -109,7 +109,7 @@ exports.actualizarTask = async (req, res ) => {
 exports.eliminarTask = async (req, res) => {
     try {
         // Extraer el todoList y comprobar si existe
-        const { todoList  } = req.query;
+        const { todoList  } = req.body;
 
         // Si la task existe o no
         let task = await Task.findById(req.params.id);
@@ -123,15 +123,15 @@ exports.eliminarTask = async (req, res) => {
 
         // Revisar si el todoList actual pertenece al usuario autenticado
         if(existeTodoList.creador.toString() !== req.usuario.id ) {
-            return res.status(401).json({msg: 'No Autorizado'});
+            return res.status(401).json({msg: 'Not Autorized'});
         }
 
         // Eliminar
         await Task.findOneAndRemove({_id: req.params.id});
-        res.json({msg: 'Task Eliminada'})
+        res.json({msg: 'Delete Task Item'})
 
     } catch (error) {
         console.log(error);
-        res.status(500).send('Hubo un error')
+        res.status(500).send('There was a mistake')
     }
 }
