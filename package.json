@@ -1,23 +1,24 @@
 {
-  "name": "merntodolist",
+  "name": "merntaskservidor",
   "version": "1.0.0",
-  "description": "MERN To Do List for Polpocr",
+  "description": "MERN API para MERN TASKS",
   "main": "index.js",
   "scripts": {
     "start": "node .",
     "dev": "nodemon ."
   },
-  "author": "Kevin Yamil Garcia Lopez",
+  "author": "Juan Pablo De la torre",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-validator": "^6.9.2",
+    "express-validator": "^6.2.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.15"
+    "mongoose": "^5.7.12"
   }
 }
