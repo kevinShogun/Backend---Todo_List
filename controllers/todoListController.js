@@ -74,7 +74,7 @@ exports.actualizarTodoList = async (req, res) => {
 			{ new: true }
 		);
 
-		res.json({ todoList }); 
+		res.json({ todoList });
 	} catch (error) {
 		console.log(error);
 		res.status(500).send("Error in a server");
