@@ -30,7 +30,7 @@ exports.crearTask = async (req, res) => {
 		res.json({ task });
 	} catch (error) {
 		console.log(error);
-		res.status(500).send("Hubo un error");
+		res.status(500).send("  ");
 	}
 };
 
@@ -55,7 +55,7 @@ exports.obtenerTasks = async (req, res) => {
 		res.json({ tasks });
 	} catch (error) {
 		console.log(error);
-		res.status(500).send("Hubo un error");
+		res.status(500).send(" ");
 	}
 };
 
@@ -92,7 +92,7 @@ exports.actualizarTask = async (req, res) => {
 		res.json({ task });
 	} catch (error) {
 		console.log(error);
-		res.status(500).send("Hubo un error");
+		res.status(500).send(" ");
 	}
 };
 
@@ -122,6 +122,6 @@ exports.eliminarTask = async (req, res) => {
 		res.json({ msg: "Task Eliminada" });
 	} catch (error) {
 		console.log(error);
-		res.status(500).send("Hubo un error");
+		res.status(500).send(" ");
 	}
 };
