@@ -1,5 +1,5 @@
 const Task = require('../models/Task');
-const TodoList = require('../models/TodoList');
+const Proyecto = require('../models/Proyecto');
 const { validationResult } = require('express-validator');
 
 // Crea una nueva task
@@ -14,16 +14,16 @@ exports.crearTask = async (req, res) => {
 
     try {
 
-        // Extraer el todoList y comprobar si existe
-        const { todoList } = req.body;
+        // Extraer el proyecto y comprobar si existe
+        const { proyecto } = req.body;
 
-        const existeTodoList = await TodoList.findById(todoList);
-        if(!existeTodoList) {
-            return res.status(404).json({msg: 'TodoList no encontrado'})
+        const existeProyecto = await Proyecto.findById(proyecto);
+        if(!existeProyecto) {
+            return res.status(404).json({msg: 'Proyecto no encontrado'})
         }
 
-        // Revisar si el todoList actual pertenece al usuario autenticado
-        if(existeTodoList.creador.toString() !== req.usuario.id ) {
+        // Revisar si el proyecto actual pertenece al usuario autenticado
+        if(existeProyecto.creador.toString() !== req.usuario.id ) {
             return res.status(401).json({msg: 'No Autorizado'});
         }
 
@@ -39,26 +39,26 @@ exports.crearTask = async (req, res) => {
 
 }
 
-// Obtiene las tasks por todoList
+// Obtiene las tasks por proyecto
 exports.obtenerTasks = async (req, res) => {
 
         try {
-            // Extraer el todoList y comprobar si existe
-            const { todoList } = req.query;
+            // Extraer el proyecto y comprobar si existe
+            const { proyecto } = req.query;
 
 
-            const existeTodoList = await TodoList.findById(todoList);
-            if(!existeTodoList) {
-                return res.status(404).json({msg: 'TodoList no encontrado'})
+            const existeProyecto = await Proyecto.findById(proyecto);
+            if(!existeProyecto) {
+                return res.status(404).json({msg: 'Proyecto no encontrado'})
             }
 
-            // Revisar si el todoList actual pertenece al usuario autenticado
-            if(existeTodoList.creador.toString() !== req.usuario.id ) {
+            // Revisar si el proyecto actual pertenece al usuario autenticado
+            if(existeProyecto.creador.toString() !== req.usuario.id ) {
                 return res.status(401).json({msg: 'No Autorizado'});
             }
 
-            // Obtener las tasks por todoList
-            const tasks = await Task.find({ todoList }).sort({ creado: -1 });
+            // Obtener las tasks por proyecto
+            const tasks = await Task.find({ proyecto }).sort({ creado: -1 });
             res.json({ tasks });
 
         } catch (error) {
@@ -70,8 +70,8 @@ exports.obtenerTasks = async (req, res) => {
 // Actualizar una task
 exports.actualizarTask = async (req, res ) => {
     try {
-        // Extraer el todoList y comprobar si existe
-        const { todoList, nombre, estado } = req.body;
+        // Extraer el proyecto y comprobar si existe
+        const { proyecto, nombre, estado } = req.body;
 
 
         // Si la task existe o no
@@ -81,11 +81,11 @@ exports.actualizarTask = async (req, res ) => {
             return res.status(404).json({msg: 'No existe esa task'});
         }
 
-        // extraer todoList
-        const existeTodoList = await TodoList.findById(todoList);
+        // extraer proyecto
+        const existeProyecto = await Proyecto.findById(proyecto);
 
-        // Revisar si el todoList actual pertenece al usuario autenticado
-        if(existeTodoList.creador.toString() !== req.usuario.id ) {
+        // Revisar si el proyecto actual pertenece al usuario autenticado
+        if(existeProyecto.creador.toString() !== req.usuario.id ) {
             return res.status(401).json({msg: 'No Autorizado'});
         }
         // Crear un objeto con la nueva información
@@ -108,8 +108,8 @@ exports.actualizarTask = async (req, res ) => {
 // Elimina una task
 exports.eliminarTask = async (req, res) => {
     try {
-        // Extraer el todoList y comprobar si existe
-        const { todoList  } = req.query;
+        // Extraer el proyecto y comprobar si existe
+        const { proyecto  } = req.query;
 
         // Si la task existe o no
         let task = await Task.findById(req.params.id);
@@ -118,11 +118,11 @@ exports.eliminarTask = async (req, res) => {
             return res.status(404).json({msg: 'No existe esa task'});
         }
 
-        // extraer todoList
-        const existeTodoList = await TodoList.findById(todoList);
+        // extraer proyecto
+        const existeProyecto = await Proyecto.findById(proyecto);
 
-        // Revisar si el todoList actual pertenece al usuario autenticado
-        if(existeTodoList.creador.toString() !== req.usuario.id ) {
+        // Revisar si el proyecto actual pertenece al usuario autenticado
+        if(existeProyecto.creador.toString() !== req.usuario.id ) {
             return res.status(401).json({msg: 'No Autorizado'});
         }
 
