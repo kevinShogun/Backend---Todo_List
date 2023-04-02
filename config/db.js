@@ -3,17 +3,16 @@ require("dotenv").config({ path: ".env" });
 
 const conectarDB = async () => {
 	try {
-		await mongoose.connect(process.env.DB_MONGO, {
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-			useFindAndModify: false,
-		});
-		console.log("DB Conectada");
-	} catch (error) {
-		console.log(" ");
-		console.log(error);
-		process.exit(1); // Detener la app
-	}
+        console.log(process.env.DB_MONGO);
+        await mongoose.connect( process.env.DB_MONGO , {
+            useNewUrlParser: true, 
+            useUnifiedTopology: true,
+        });
+        console.log('DB Online');
+    } catch (error) {
+        console.log(error);
+        throw new Error('Error a la hora de inicializar BD');
+    }
 };
 
 module.exports = conectarDB;
