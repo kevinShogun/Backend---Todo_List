@@ -8,19 +8,18 @@ const todoController = require("../controllers/todoController");
 // api/todos
 router.post(
 	"/",
-	[check("nombre", "The name of the todo is required").not().isEmpty()],
+	[check("title", "The name of the todo is required").not().isEmpty()],
 	todoController.createTodo
 );
-
-// Obtener todos los todos
-router.get("/", todoController.getAllTodos);
-
 // Actualizar todo via ID
 router.put(
 	"/:id",
-	[check("nombre", "The name of the todo is required").not().isEmpty()],
+	[check("title", "The name of the todo is required").not().isEmpty()],
 	todoController.updateTodo
 );
+
+// Obtener todas las taks de un todo
+router.get("/:id/tasks", todoController.getAllTaksByTodo);
 
 // Eliminar un todo
 router.delete("/:id", todoController.deleteTodo);

@@ -1,3 +1,4 @@
+const Task = require('../models/Task');
 const Todo = require('../models/Todo');
 const { validationResult } = require('express-validator');
 
@@ -13,24 +14,10 @@ exports.createTodo = async (req, res) => {
         // Crear un nuevo todo
         const todo = new Todo(req.body);
 
-        // Guardar el userId via JWT
-        todo.userId = req.user.id;
-
         // guardamos el todo
         todo.save();
         res.json(todo);
         
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Hubo un error');
-    }
-}
-
-// Obtiene todos los todos del user actual
-exports.getAllTodos = async (req, res) => {
-    try {
-        const todos = await Todo.find({ userId: req.user.id }).sort({ creado: -1 });
-        res.json({ todos });
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error');
@@ -47,11 +34,15 @@ exports.updateTodo = async (req, res) => {
     }
 
     // extraer la información del todo
-    const { title } = req.body;
+    const { title, keywords } = req.body;
     const newTodo = {};
     
     if(title) {
         newTodo.title = title;
+    }
+
+    if(keywords) {
+        newTodo.keywords = keywords;
     }
 
     try {
@@ -65,7 +56,8 @@ exports.updateTodo = async (req, res) => {
         }
 
         // verificar el userId del todo
-        if(todo.userId.toString() !== req.user.id ) {
+        if(todo.userId.toString() !== req.body.userId ) {
+            console.log(todo.userId, req.body.userId);
             return res.status(401).json({msg: 'No Autorizado'});
         }
 
@@ -80,6 +72,16 @@ exports.updateTodo = async (req, res) => {
     }
 }
 
+exports.getAllTaksByTodo = async (req, res) => {
+    try {
+        const tasks = await Task.find({ todoId: req.params.id });
+        res.json({ tasks });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error en el servidor');
+    }
+};
+
 // Elimina un todo por su id
 exports.deleteTodo = async (req, res ) => {
     try {
@@ -92,7 +94,7 @@ exports.deleteTodo = async (req, res ) => {
         }
 
         // verificar el userId del todo
-        if(todo.userId.toString() !== req.user.id ) {
+        if(todo.userId.toString() !== req.headers.userid ) {
             return res.status(401).json({msg: 'No Autorizado'});
         }
 

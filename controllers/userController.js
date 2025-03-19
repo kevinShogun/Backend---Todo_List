@@ -9,29 +9,26 @@ exports.createUser = async (req, res) => {
 		return res.status(400).json({ errores: errores.array() });
 	}
 
-	// extraer email y password
 	const { email } = req.body;
 
 	try {
-		// Revisar que el User registrado sea unico
-		let User = await User.findOne({ email });
+		
+		let userRequest = await User.findOne({ email });
 
-		if (User) {
+		if (userRequest) {
 			return res.status(400).json({ msg: "Ya existe un Usuario con ese email" });
 		}
 
-		// crea el nuevo User
-		User = new User(req.body);
-		// guardar User
-		await User.save();
+		userRequest = new User(req.body);
 
-		// Crear y firmar el JWT
+		await userRequest.save();
+
 		const payload = {
 			User: {
-				id: User.id,
-				firstName: User.firstName,
-				lastName: User.lastName,
-				email: User.email,
+				id: userRequest.id,
+				firstName: userRequest.firstName,
+				lastName: userRequest.lastName,
+				email: userRequest.email,
 			},
 		};
 
@@ -54,8 +51,8 @@ exports.getAllUsers = async (req, res) => {
 
 exports.getOneUser = async (req, res) => {
     try {
-        const User = await User.findById(req.params.id);
-        res.json({ User });
+        const user = await User.findById(req.params.id);
+        res.json({ user });
     } catch (error) {
         console.log(error);
         res.status(500).send("Hubo un error");
@@ -65,6 +62,7 @@ exports.getOneUser = async (req, res) => {
 exports.getAllTodosByUser = async (req, res) => {
 
 	try {
+		console.log(req.params)
 		const todos = await Todo.find({ userId: req.params.id }).sort({ creado: -1 });
 		res.json({ todos });
 	} catch (error) {

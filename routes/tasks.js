@@ -9,13 +9,10 @@ router.post(
 	"/",
 	[
 		check("title", "El titulo es obligatorio").not().isEmpty(),
-		check("todo", "El Todo es obligatorio").not().isEmpty(),
+		check("todoId", "El Todo es obligatorio").not().isEmpty(),
 	],
 	taskController.createTask
 );
-
-// Obtener las tasks por todoList
-router.get("/", taskController.getTasks);
 
 // Actualizar task
 router.put("/:id", taskController.updateTask);
