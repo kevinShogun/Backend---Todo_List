@@ -1,28 +1,26 @@
 const express = require("express");
 const router = express.Router();
 const taskController = require("../controllers/taskController");
-const auth = require("../middleware/auth");
 const { check } = require("express-validator");
 
 // crear una task
 // api/tasks
 router.post(
 	"/",
-	auth,
 	[
-		check("nombre", "El Nombre es obligatorio").not().isEmpty(),
-		check("todoList", "El TodoList es obligatorio").not().isEmpty(),
+		check("title", "El titulo es obligatorio").not().isEmpty(),
+		check("todo", "El Todo es obligatorio").not().isEmpty(),
 	],
-	taskController.crearTask
+	taskController.createTask
 );
 
 // Obtener las tasks por todoList
-router.get("/", auth, taskController.obtenerTasks);
+router.get("/", taskController.getTasks);
 
 // Actualizar task
-router.put("/:id", auth, taskController.actualizarTask);
+router.put("/:id", taskController.updateTask);
 
 // Eliminar task
-router.delete("/:id", auth, taskController.eliminarTask);
+router.delete("/:id", taskController.deleteTask);
 
 module.exports = router;

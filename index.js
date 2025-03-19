@@ -14,9 +14,8 @@ app.use(cors());
 app.use(express.json({ extended: true }));
 
 // Importar rutas
-app.use("/api/usuarios", require("./routes/usuarios"));
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/todolists", require("./routes/todoLists"));
+app.use("/api/users", require("./routes/users"));
+app.use("/api/todo", require("./routes/todos"));
 app.use("/api/tasks", require("./routes/tasks"));
 
 app.listen(process.env.PORT, '0.0.0.0', () => {

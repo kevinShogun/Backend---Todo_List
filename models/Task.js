@@ -1,22 +1,26 @@
 const mongoose = require("mongoose");
 
 const TaskSchema = mongoose.Schema({
-	nombre: {
+	title: {
 		type: String,
 		required: true,
 		trim: true,
 	},
-	estado: {
+	completed: {
 		type: Boolean,
 		default: false,
 	},
-	creado: {
+	created: {
 		type: Date,
 		default: Date.now(),
 	},
-	todoList: {
+	todoId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "TodoList",
+		ref: "Todo",
+	},
+	userId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "User",
 	},
 });
 
